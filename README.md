@@ -13,8 +13,10 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 	- add the following to a MX record on NameCheap
 		- @ for name, "mx.sendgrid.net" for value
 - Posting data
+	- testing use ngrok & firebase emulators:start
 	
 - parsing data
 	- set up cloud functions for the node.js server / parser
 	- run this setup to get acquainted https://firebase.google.com/docs/functions/get-started?authuser=0
+	- 
 
