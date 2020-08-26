@@ -1,19 +1,19 @@
-@import url("https://use.typekit.net/enm4vrz.css");
-@font-face {
-	font-family: Duospace;
-	font-style: normal;
-	font-weight: 400;
-	src: url(/fonts/duospace/iAWriterDuospace-Regular.eot);
-	src: url(/fonts/duospace/iAWriterDuospace-Regular.eot?#iefix) format("embedded-opentype"), url(/fonts/duospace/iAWriterDuospace-Regular.woff2) format("woff2"), url(/fonts/duospace/iAWriterDuospace-Regular.woff) format("woff"), url(/fonts/duospace/iAWriterDuospace-Regular.ttf) format("truetype")
-}
+/*@import url("https://use.typekit.net/enm4vrz.css");*/
+/*@font-face {*/
+	/*font-family: Duospace;*/
+	/*font-style: normal;*/
+	/*font-weight: 400;*/
+	/*src: url(/fonts/duospace/iAWriterDuospace-Regular.eot);*/
+	/*src: url(/fonts/duospace/iAWriterDuospace-Regular.eot?#iefix) format("embedded-opentype"), url(/fonts/duospace/iAWriterDuospace-Regular.woff2) format("woff2"), url(/fonts/duospace/iAWriterDuospace-Regular.woff) format("woff"), url(/fonts/duospace/iAWriterDuospace-Regular.ttf) format("truetype")*/
+/*}*/
 
-@font-face {
-	font-family: Duospace;
-	font-style: normal;
-	font-weight: 700;
-	src: url(/fonts/duospace/iAWriterDuospace-Bold.eot);
-	src: url(/fonts/duospace/iAWriterDuospace-Bold.eot?#iefix) format("embedded-opentype"), url(/fonts/duospace/iAWriterDuospace-Bold.woff2) format("woff2"), url(/fonts/duospace/iAWriterDuospace-Bold.woff) format("woff"), url(/fonts/duospace/iAWriterDuospace-Bold.ttf) format("truetype")
-}
+/*@font-face {*/
+	/*font-family: Duospace;*/
+	/*font-style: normal;*/
+	/*font-weight: 700;*/
+	/*src: url(/fonts/duospace/iAWriterDuospace-Bold.eot);*/
+	/*src: url(/fonts/duospace/iAWriterDuospace-Bold.eot?#iefix) format("embedded-opentype"), url(/fonts/duospace/iAWriterDuospace-Bold.woff2) format("woff2"), url(/fonts/duospace/iAWriterDuospace-Bold.woff) format("woff"), url(/fonts/duospace/iAWriterDuospace-Bold.ttf) format("truetype")*/
+/*}*/
 
 html {
 	font-size: 10px

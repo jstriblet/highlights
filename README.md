@@ -22,5 +22,8 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 	- NEED TO convert buffer to string!!!! 
 	-  
 
+## todo:
 - html & css
+- downloading cover art
+
 
