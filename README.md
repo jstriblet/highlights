@@ -1,6 +1,7 @@
 ## Highlights
 ## Notes
 iOS Kindle app -> SendGrid -> Firebase
+
 https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-parse-webhook/
 - create cname entries from instructions provided by SendGrid
 	- takes 4-8 hours to propagate
@@ -18,5 +19,8 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 - parsing data
 	- set up cloud functions for the node.js server / parser
 	- run this setup to get acquainted https://firebase.google.com/docs/functions/get-started?authuser=0
-	- 
+	- NEED TO convert buffer to string!!!! 
+	-  
+
+- html & css
 
