@@ -1,4 +1,4 @@
-### highlights.striblet.com
+# highlights.striblet.com
 
 ## 🚧🚧🚧🚧🚧🚧🚧🚧
 
