@@ -1,21 +1,21 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
-// The Firebase Admin SDK to access Cloud Firestore.
 const admin = require('firebase-admin');
 			admin.initializeApp();
+
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
+const getBook = require('./getBook.js');
 
 
 
 // Take the text parameter passed to this HTTP endpoint and insert it into 
-// Cloud Firestore under the path /messages/:documentId/original
+// Cloud Firestore under the path /messages/:documentId/email
 exports.addMessage = functions.https.onRequest(async (req, res) => {
 	
   // Grab the JSON data from the POST request and create an object.
 	const json = JSON.stringify(req.body);
 
-	// Convert the buffer from the json to text
+	// Convert the buffer from the JSON to text
 	const buffer = Buffer.from(JSON.parse(json).data);
 	const email  = buffer.toString('utf8');
 
@@ -33,11 +33,15 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 
 	// Convert the email message to JSON
 	const email = snap.data().email;
-	const emailJSON = toJSON(email);
-	const title = emailJSON.volume.title;
+	const json = toJSON(email);
+	
+	// Get the meta data for the book
+	const title = json.volume.title;
+	const authors = json.volume.authors;
+	const meta = getBook(title, authors);
 
 	// Push the volume to the Firestore, and overwrite any existing one
-	admin.firestore().collection('Volumes').doc(title).set({ volume : emailJSON });
+	admin.firestore().collection('Volumes').doc(title).set({ book : json });
 
 	console.log(title);
 });
@@ -45,9 +49,8 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 
 
 // Download metadata for volume ( Book Cover )
-exports.addMetaData = functions.firestore.document('/Volumes/{documentId}').onCreate((snap, context)=> {
+//exports.addMetaData = functions.firestore.document('/Volumes/{documentId}').onCreate((snap, context)=> {
 
 
 
-	console.log(title);
-});
+//});
