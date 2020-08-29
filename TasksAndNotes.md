@@ -24,7 +24,8 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 
 ## todo:
 - html & css
-- downloading cover art
+- downloading cover art 
+	- https://developers.google.com/books/docs/v1/using#PerformingSearch
 
 
 

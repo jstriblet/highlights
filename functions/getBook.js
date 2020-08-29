@@ -20,6 +20,8 @@ function getBook(title, authors) {
 function get(title, authors) {
   const book = new Book(title, authors);
 
+	// Do some error checking?
+
 	return book.getDetails();
 }
 

@@ -41,21 +41,9 @@
 		</div>
 	</body>
 
-	<script>
-		// Your web app's Firebase configuration
-		var firebaseConfig = {
-			apiKey: "AIzaSyBV_BQj4ZAVLsnwaSeu-bn8j8rfr_shGt0",
-			authDomain: "highlights-ec45b.firebaseapp.com",
-			databaseURL: "https://highlights-ec45b.firebaseio.com",
-			projectId: "highlights-ec45b",
-			storageBucket: "highlights-ec45b.appspot.com",
-			messagingSenderId: "798212107768",
-			appId: "1:798212107768:web:6f81cc75e5a83ddec6fa0d",
-			measurementId: "G-CFG6YEZ00N"
-		};
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);
-	</script>	
+	<!-- Import the firebase configuration and initialize -->
+
+	<script src="./FirebaseConfig.js"></script>	
 
 	<script>
 		function render(volumes) {
@@ -63,7 +51,6 @@
 
 			volumes.forEach(volume => {
 				let text = document.createElement('DIV');
-
 				text.innerHTML = volume.volume.volume.title;
 				el.appendChild(text);
 			});
@@ -88,5 +75,6 @@
 
 	getVolumes();
 	</script>
+
 </html>
 
