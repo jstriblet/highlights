@@ -7,32 +7,44 @@ const https = require('https');
  */
 const Book = function(title, authors) {
   this.title = title;
-	this.urlTitle = title.replace(/ /g, '+');
   this.authors = authors;
-	this.bookDetails = {};
+	this.imageLinks;
+	this.ISBN;
 };
 
-Book.prototype.parse = function(resp) {
-	let data = '';
-	resp.on('data', (chunk) => { data += chunk; });
-	resp.on('end', () => {
-		data = JSON.parse(data);
-		//this.bookDetails.volumeId = data.items[0].id;
-		//this.bookDetails.image = this.getImage(data.items[1].selfLink);
-		console.log(data.items[0].selfLink)
-	}); 
-}
-
-Book.prototype.search = function() {
-	https.get(`https://www.googleapis.com/books/v1/volumes?q=${this.urlTitle}+inauthor:${this.authors[0]}`, this.parse)
+Book.prototype.searchDetails = function() {
+	https.get(`https://www.googleapis.com/books/v1/volumes?q=
+			${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0]}`, 
+		resp => {
+			let data = '';
+			resp.on('data', (chunk) => { data += chunk });
+			resp.on('end', () => {
+				data = JSON.parse(data);
+				console.log('inside search details'); 
+				this.getBook(data);
+			});
+		})
 		.on('error', (err) => {
 			console.log('Error: ' + err.message);
 		});
 }
 
+Book.prototype.getBook = function(data) {
+	const url = data.items[0].selfLink;
+	https.get(url, resp => {
+		let data = '';
+		resp.on('data', (chunk) => { data += chunk; });
+		resp.on('end', () => {
+			data = JSON.parse(data);
+			this.imageLinks = data.volumeInfo.imageLinks;
+			this.ISBN = data.volumeInfo.industryIdentifiers;
+			console.log('inside get book');
+		});
+	});
+}
+
 Book.prototype.getDetails = function() {
-	this.search();
-	return this.bookDetails;
+	this.searchDetails();
 }
 
 module.exports = Book;

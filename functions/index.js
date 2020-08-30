@@ -38,12 +38,15 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	// Get the meta data for the book
 	const title = json.volume.title;
 	const authors = json.volume.authors;
+
 	const meta = getBook(title, authors);
+	//json.volume.imageLinks = meta.imageLinks;
+
+	console.log(meta)
 
 	// Push the volume to the Firestore, and overwrite any existing one
 	admin.firestore().collection('Volumes').doc(title).set({ book : json });
 
-	console.log(title);
 });
 
 

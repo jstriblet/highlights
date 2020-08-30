@@ -22,7 +22,12 @@ function get(title, authors) {
 
 	// Do some error checking?
 
-	return book.getDetails();
+	book.getDetails();
+
+	setTimeout(() => {
+		console.log(book);
+		return book;
+	}, 400);
 }
 
 module.exports = getBook;
