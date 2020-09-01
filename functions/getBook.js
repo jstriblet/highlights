@@ -22,6 +22,7 @@ function get(title, authors) {
 
 	// Do some error checking?
 
+
 	book.getDetails();
 	return book;
 }
