@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
-const getBook = require('./getBook.js');
+const CreateBook = require('./CreateBook.js');
 
 
 
@@ -34,20 +34,11 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	// Convert the email message to JSON
 	const email = snap.data().email;
 	const json = toJSON(email);
-	
-	// Get the meta data for the book
-	const title = json.volume.title;
-	const authors = json.volume.authors;
-
-	const meta = getBook(title, authors);
-	//json.volume.imageLinks = meta.imageLinks;
-
-	setTimeout(n => {
-console.log(meta)
-	}, 4000)
+	const book = CreateBook(json);
+	console.log(book);
 
 	// Push the volume to the Firestore, and overwrite any existing one
-	admin.firestore().collection('Volumes').doc(title).set({ book : json });
+	admin.firestore().collection('volumes').doc(json.volume.title).set({ book : json });
 
 });
 

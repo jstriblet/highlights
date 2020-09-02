@@ -9,23 +9,13 @@ const Book = require('./Book.js');
 	* @param {Array} authors
 	* @returns {Promise<Object>}
 	*/
-function getBook(title, authors) {
-  return get(title, authors);
-}
-
-/**
- * @param {String} contents - HTML attachment content
- * @returns {Object}
- */
-function get(title, authors) {
-  const book = new Book(title, authors);
+function CreateBook(json) {
+	const book = new Book(json);
 
 	// Do some error checking?
-
-
 	book.getDetails();
 	return book;
 }
 
-module.exports = getBook;
+module.exports = CreateBook;
 
