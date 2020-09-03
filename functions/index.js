@@ -34,11 +34,16 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	// Convert the email message to JSON
 	const email = snap.data().email;
 	const json = toJSON(email);
-	const book = CreateBook(json);
-	console.log(book);
+	let book = CreateBook(json);
 
-	// Push the volume to the Firestore, and overwrite any existing one
-	admin.firestore().collection('volumes').doc(json.volume.title).set({ book : json });
+	console.log(typeof book);
+
+	setTimeout(() => {
+
+		// Push the volume to the Firestore, and overwrite any existing one
+		admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
+	}, 3000);
+
 
 });
 

@@ -10,10 +10,9 @@ const Book = require('./Book.js');
 	* @returns {Promise<Object>}
 	*/
 function CreateBook(json) {
-	const book = new Book(json);
+	const book = new Book(json).getDetails();
 
 	// Do some error checking?
-	book.getDetails();
 	return book;
 }
 

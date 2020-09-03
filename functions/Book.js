@@ -57,6 +57,14 @@ Book.prototype.getDetails = function() {
 	this.setAuthors();
 	console.log('inside getDetils');
 	this.searchDetails();
+
+	return {
+		json : this.json,
+		title : this.title,
+		authors : this.authors,
+		imageLinks : this.imageLinks,
+		ISBN : this.ISBN
+	}
 }
 
 module.exports = Book;
