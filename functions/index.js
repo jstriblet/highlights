@@ -29,29 +29,16 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
 
 
 // Convert the new message to highlights / notes within volumes
-exports.addVolume = functions.firestore.document('/messages/{documentId}').onCreate((snap, context)=> {
+exports.addVolume = functions.firestore.document('/messages/{documentId}').onCreate(async (snap, context)=> {
 
 	// Convert the email message to JSON
 	const email = snap.data().email;
 	const json = toJSON(email);
-	let book = CreateBook(json);
+	let book = await CreateBook(json);
 
-	console.log(typeof book);
-
-	setTimeout(() => {
-
-		// Push the volume to the Firestore, and overwrite any existing one
-		admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
-	}, 3000);
-
+	console.log(book);
+	// Push the volume to the Firestore, and overwrite any existing one
+	admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
 
 });
 
-
-
-// Download metadata for volume ( Book Cover )
-//exports.addMetaData = functions.firestore.document('/Volumes/{documentId}').onCreate((snap, context)=> {
-
-
-
-//});

@@ -9,10 +9,12 @@ const Book = require('./Book.js');
 	* @param {Array} authors
 	* @returns {Promise<Object>}
 	*/
-function CreateBook(json) {
-	const book = new Book(json).getDetails();
+async function CreateBook(json) {
+	const newBookBinder = new Book(json)
+	const book = await newBookBinder.getDetails();
 
 	// Do some error checking?
+
 	return book;
 }
 

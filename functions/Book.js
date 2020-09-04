@@ -1,4 +1,5 @@
 const https = require('https');
+const bent = require('bent');
 /**
  * Ask Google for Book title, Volume ID, and ISBN
  * @param {String} title
@@ -7,64 +8,50 @@ const https = require('https');
  */
 const Book = function(json) {
 	this.json = json;
+	this.highlights = json.highlights;
   this.title;
   this.authors;
-	this.imageLinks = '';
-	this.ISBN = '';
+	this.images;
+	this.isbn;
 };
 
 Book.prototype.setTitle = function() {
-	this.title = this.json.volume.title;
+	this.title = this.json.volume.title.split(' ').slice(0, 3).join(' ');
 }
 
 Book.prototype.setAuthors = function() {
 	this.authors = this.json.volume.authors;
 }
 
-Book.prototype.getBook = function(data) {
+Book.prototype.searchDetails = async function() {
+	const get = bent(`https://www.googleapis.com/books`, 'GET', 'json', 200);
+	const response = await get(`/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0]}`);
+
+	return this.getBook(response);
+}
+
+Book.prototype.getBook = async function(data) {
 	const url = data.items[0].selfLink;
-	https.get(url, resp => {
-		let data = '';
-		resp.on('data', (chunk) => { data += chunk; });
-		resp.on('end', () => {
-			data = JSON.parse(data);
-			this.imageLinks = data.volumeInfo.imageLinks;
-			this.ISBN = data.volumeInfo.industryIdentifiers;
-			console.log('inside get book');
-		});
-	});
+	const get = bent(url, 'GET', 'json', 200);
+	const response = await get();
+
+	this.images = response.volumeInfo.imageLinks;
+	this.isbn = response.volumeInfo.industryIdentifiers;
+
+	return	{
+		json    : this.json,
+		title   : this.title,
+		authors : this.authors,
+		images  : this.images,
+		ISBN    : this.isbn
+	}
 }
 
-Book.prototype.searchDetails = function() {
-	https.get(`https://www.googleapis.com/books/v1/volumes?q=
-			${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0]}`, 
-		resp => {
-			let data = '';
-			resp.on('data', (chunk) => { data += chunk });
-			resp.on('end', () => {
-				data = JSON.parse(data);
-				console.log('inside search details'); 
-				this.getBook(data);
-			});
-		})
-		.on('error', (err) => {
-			console.log('Error: ' + err.message);
-		});
-}
-
-Book.prototype.getDetails = function() {
+Book.prototype.getDetails = async function() {
 	this.setTitle();
 	this.setAuthors();
-	console.log('inside getDetils');
-	this.searchDetails();
 
-	return {
-		json : this.json,
-		title : this.title,
-		authors : this.authors,
-		imageLinks : this.imageLinks,
-		ISBN : this.ISBN
-	}
+	return await this.searchDetails();
 }
 
 module.exports = Book;
