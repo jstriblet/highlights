@@ -1,5 +1,5 @@
 const https = require('https');
-const bent = require('bent');
+const axios = require('axios');
 /**
  * Ask Google for Book title, Volume ID, and ISBN
  * @param {String} title
@@ -24,19 +24,34 @@ Book.prototype.setAuthors = function() {
 }
 
 Book.prototype.searchDetails = async function() {
-	const get = bent(`https://www.googleapis.com/books`, 'GET', 'json', 200);
-	const response = await get(`/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0]}`);
+	const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
+	let response;
 
-	return this.getBook(response);
+	console.log(url)
+
+	try {
+		response = await axios.get(url);
+	} catch (err) {
+		console.log('Error in searchDetails: ' + err);
+	}
+
+	console.log(response.data);
+
+	return this.getBook(response.data);
 }
 
 Book.prototype.getBook = async function(data) {
-	const url = data.items[0].selfLink;
-	const get = bent(url, 'GET', 'json', 200);
-	const response = await get();
+	const url = `${data.items[0].selfLink}?`;
+	let response;
 
-	this.images = response.volumeInfo.imageLinks;
-	this.isbn = response.volumeInfo.industryIdentifiers;
+	try {
+		response = await axios.get(url);
+	} catch (err) {
+		console.log('Error in getBook: ' + err)
+	}
+
+	this.images = response.data.volumeInfo.imageLinks;
+	this.isbn = response.data.volumeInfo.industryIdentifiers;
 
 	return	{
 		json    : this.json,
