@@ -34,6 +34,47 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	// Convert the email message to JSON
 	const email = snap.data().email;
 	const json = toJSON(email);
+
+
+ook.prototype.searchDetails = async function() {
+	const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
+	let response;
+	console.log(url)
+
+	try {
+		response = await axios.get(url);
+	} catch (err) {
+		console.log('Error in searchDetails: ' + err);
+	}
+
+	console.log(response.data);
+
+	return this.getBook(response.data);
+}
+
+Book.prototype.getBook = async function(data) {
+	const url = `${data.items[0].selfLink}?`;
+	let response;
+
+	try {
+		response = await axios.get(url);
+	} catch (err) {
+		console.log('Error in getBook: ' + err)
+	}
+
+	this.images = response.data.volumeInfo.imageLinks;
+	this.isbn = response.data.volumeInfo.industryIdentifiers;
+
+	return	{
+		json    : this.json,
+		title   : this.title,
+		authors : this.authors,
+		images  : this.images,
+		ISBN    : this.isbn
+	}
+}
+
+
 	let book = await CreateBook(json);
 
 	console.log(book);
