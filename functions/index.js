@@ -39,7 +39,6 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const searchDetails = async function() {
 		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
 		let response;
-		console.log(url)
 
 		try {
 			response = await axios.get(url);
