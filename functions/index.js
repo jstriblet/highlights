@@ -36,46 +36,46 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const json = toJSON(email);
 
 
-ook.prototype.searchDetails = async function() {
-	const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
-	let response;
-	console.log(url)
+	const searchDetails = async function() {
+		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
+		let response;
+		console.log(url)
 
-	try {
-		response = await axios.get(url);
-	} catch (err) {
-		console.log('Error in searchDetails: ' + err);
+		try {
+			response = await axios.get(url);
+		} catch (err) {
+			console.log('Error in searchDetails: ' + err);
+		}
+
+		console.log(response.data);
+
+		return this.getBook(response.data);
 	}
 
-	console.log(response.data);
+	const getBook = async function(data) {
+		const url = `${data.items[0].selfLink}?`;
+		let response;
 
-	return this.getBook(response.data);
-}
+		try {
+			response = await axios.get(url);
+		} catch (err) {
+			console.log('Error in getBook: ' + err)
+		}
 
-Book.prototype.getBook = async function(data) {
-	const url = `${data.items[0].selfLink}?`;
-	let response;
+		this.images = response.data.volumeInfo.imageLinks;
+		this.isbn = response.data.volumeInfo.industryIdentifiers;
 
-	try {
-		response = await axios.get(url);
-	} catch (err) {
-		console.log('Error in getBook: ' + err)
+		return	{
+			json    : this.json,
+			title   : this.title,
+			authors : this.authors,
+			images  : this.images,
+			ISBN    : this.isbn
+		}
 	}
 
-	this.images = response.data.volumeInfo.imageLinks;
-	this.isbn = response.data.volumeInfo.industryIdentifiers;
 
-	return	{
-		json    : this.json,
-		title   : this.title,
-		authors : this.authors,
-		images  : this.images,
-		ISBN    : this.isbn
-	}
-}
-
-
-	let book = await CreateBook(json);
+	let book = await getBook(json);
 
 	console.log(book);
 	// Push the volume to the Firestore, and overwrite any existing one
