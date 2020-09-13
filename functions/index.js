@@ -61,6 +61,7 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 		}
 
 		this.images = response.data.volumeInfo.imageLinks;
+
 		this.isbn = response.data.volumeInfo.industryIdentifiers;
 
 		return	{
