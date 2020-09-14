@@ -7,7 +7,6 @@ const toJSON = require('./toJSON.js');
 const CreateBook = require('./CreateBook.js');
 
 
-
 // Take the text parameter passed to this HTTP endpoint and insert it into 
 // Cloud Firestore under the path /messages/:documentId/email
 exports.addMessage = functions.https.onRequest(async (req, res) => {
@@ -25,7 +24,6 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
   // Send back a message that we've successfully written the message
 	res.json({result: `Message with ID: ${writeResult.id} added.`});
 });
-
 
 
 // Convert the new message to highlights / notes within volumes
