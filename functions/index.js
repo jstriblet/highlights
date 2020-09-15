@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 			admin.initializeApp();
 
+// ugh
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
 const CreateBook = require('./CreateBook.js');
