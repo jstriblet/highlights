@@ -72,7 +72,6 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 		}
 	}
 
-
 	let book = await getBook(json);
 
 	console.log(book);
