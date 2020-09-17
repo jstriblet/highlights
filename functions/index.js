@@ -34,7 +34,7 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const email = snap.data().email;
 	const json = toJSON(email);
 
-	const searchDetails = async function() {
+	let searchDetails = async function() {
 		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
 		let response;
 
@@ -49,7 +49,7 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 		return this.getBook(response.data);
 	}
 
-	const getBook = async function(data) {
+	let getBook = async function(data) {
 		const url = `${data.items[0].selfLink}?`;
 		let response;
 
