@@ -22,6 +22,8 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 	- NEED TO convert buffer to string!!!! 
 	-  
 
+- The google books api needs to have the county defined in the get call request
+
 ## todo:
 - html & css
 - downloading cover art 

@@ -67,3 +67,4 @@ node_modules/
 
 # Custom
 FirebaseConfig.js
+functions/ConfigKey.js

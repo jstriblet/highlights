@@ -36,7 +36,6 @@
 						</a>
 					</li>
 				</ul>
-
 			</main>
 		</div>
 	</body>
@@ -46,6 +45,7 @@
 	<script src="./FirebaseConfig.js"></script>	
 
 	<script>
+
 		function render(volumes) {
 			let el = document.createElement('DIV');
 
@@ -60,17 +60,18 @@
 
 		function parse(doc) {
 			const rtrn = [];
-			doc.forEach((doc) => { rtrn.push(doc.data()) });
+			<!--doc.forEach((doc) => { rtrn.push(doc.data()) });-->
 			return rtrn;
 		}
 
 		function getVolumes() {
 			const myData = firebase
 			.firestore()
-			.collection('Volumes')
+			.collection('volumes')
 			.get()
 				.then(parse)
 				.then(render)
+			console.log(firebase)
 		}
 
 	getVolumes();

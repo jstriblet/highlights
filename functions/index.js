@@ -1,11 +1,13 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const axios = require('axios');
 			admin.initializeApp();
 
 // ugh
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
 const CreateBook = require('./CreateBook.js');
+const ConfigKey = require('./ConfigKey.js');
 
 
 // Take the text parameter passed to this HTTP endpoint and insert it into 
@@ -34,8 +36,8 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const email = snap.data().email;
 	const json = toJSON(email);
 
-	let searchDetails = async function() {
-		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}`
+	const searchDetails = async function(json) {
+		const url = `https://www.googleapis.com/books/v1/volumes?q=${json.volume.title.replace(/ /g, '+')}+inauthor:${json.volume.authors[0].replace(/ /g, '+')}&key=${ConfigKey().key}&country=US`
 		let response;
 
 		try {
@@ -44,13 +46,11 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 			console.log('Error in searchDetails: ' + err);
 		}
 
-		console.log(response.data);
-
-		return this.getBook(response.data);
+		return getBook(response.data);
 	}
 
-	let getBook = async function(data) {
-		const url = `${data.items[0].selfLink}?`;
+	const getBook = async function(data) {
+		const url = `${data.items[0].selfLink}?&key=${ConfigKey().key}&country=US`;
 		let response;
 
 		try {
@@ -59,20 +59,18 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 			console.log('Error in getBook: ' + err)
 		}
 
-		this.images = response.data.volumeInfo.imageLinks;
-
-		this.isbn = response.data.volumeInfo.industryIdentifiers;
+		json.images = response.data.volumeInfo.imageLinks;
+		json.isbn = response.data.volumeInfo.industryIdentifiers;
 
 		return	{
-			json    : this.json,
-			title   : this.title,
-			authors : this.authors,
-			images  : this.images,
-			ISBN    : this.isbn
+			title   : json.volume.title,
+			authors : json.volume.authors,
+			images  : json.images,
+			ISBN    : json.isbn
 		}
 	}
 
-	let book = await getBook(json);
+	let book = await searchDetails(json);
 
 	console.log(book);
 	// Push the volume to the Firestore, and overwrite any existing one
