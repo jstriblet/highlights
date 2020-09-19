@@ -25,7 +25,6 @@
 		<div id="root">
 			<main id="main" class="l-container l-container--shelf u-margin-top--xl">
 				<h1 class="u-antialiased">What I’ve been reading</h1>
-
 				<ul class="c-shelf">
 					<li class="c-shelf__volume">
 						<a href="/volumes/cY7B4unkQXBMM0GObZ1Z" class="c-shelf__link">
@@ -47,31 +46,47 @@
 	<script>
 
 		function render(volumes) {
-			let el = document.createElement('DIV');
+			let shelf = document.getElementsByClassName("c-shelf")[0]
 
 			volumes.forEach(volume => {
-				let text = document.createElement('DIV');
-				text.innerHTML = volume.volume.volume.title;
-				el.appendChild(text);
+				console.log(volume.book)
+				let li = document.createElement('LI');
+				let text = document.createElement('H2');
+				let img = document.createElement('IMG');
+				let link = document.createElement('A');
+				let figure = document.createElement('FIGURE');
+
+				li.classList.add("c-shelf__volume")
+				text.innerHTML = volume.book.title;
+				text.classList.add("c-shelf__volume__title");
+				img.src = volume.book.images.thumbnail;
+				link.classList.add("c-shelf__link");
+				figure.classList.add("c-cover");
+
+				figure.appendChild(img);
+				link.appendChild(figure);
+				link.appendChild(text);
+				li.appendChild(link);
+				shelf.appendChild(li);
 			});
 
-			document.getElementById('main').appendChild(el);
 		}
 
 		function parse(doc) {
-			const rtrn = [];
-			<!--doc.forEach((doc) => { rtrn.push(doc.data()) });-->
-			return rtrn;
+			const result = [];
+			doc.forEach((doc) => { 
+				result.push(doc.data()) 
+			});
+			return result;
 		}
 
 		function getVolumes() {
 			const myData = firebase
 			.firestore()
-			.collection('volumes')
+			.collection("volumes")
 			.get()
 				.then(parse)
 				.then(render)
-			console.log(firebase)
 		}
 
 	getVolumes();
