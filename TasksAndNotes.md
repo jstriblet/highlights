@@ -28,6 +28,8 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 - html & css
 - downloading cover art 
 	- https://developers.google.com/books/docs/v1/using#PerformingSearch
-
+	- download images from multiple  sources
+	- convert image to blob from image 
+	- refactor book class
 
 

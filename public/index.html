@@ -49,7 +49,7 @@
 			let shelf = document.getElementsByClassName("c-shelf")[0]
 
 			volumes.forEach(volume => {
-				console.log(volume.book)
+				<!--console.log(volume.book)-->
 				let li = document.createElement('LI');
 				let text = document.createElement('H2');
 				let img = document.createElement('IMG');
@@ -57,9 +57,10 @@
 				let figure = document.createElement('FIGURE');
 
 				li.classList.add("c-shelf__volume")
-				text.innerHTML = volume.book.title;
+				text.innerHTML = volume.book.title.split(':')[0];
 				text.classList.add("c-shelf__volume__title");
-				img.src = volume.book.images.thumbnail;
+				img.src = `covers/${volume.book.ISBN[1].identifier}.jpg`;
+				console.dir(img)
 				link.classList.add("c-shelf__link");
 				figure.classList.add("c-cover");
 
