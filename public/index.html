@@ -26,18 +26,11 @@
 			<main id="main" class="l-container l-container--shelf u-margin-top--xl">
 				<h1 class="u-antialiased">What I’ve been reading</h1>
 				<ul class="c-shelf">
-					<li class="c-shelf__volume">
-						<a href="/volumes/cY7B4unkQXBMM0GObZ1Z" class="c-shelf__link">
-							<figure class="c-cover">
-								<img srcset="https://sawyer-highlights.imgix.net/volume/covers/_wZ35GI4itgC?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format&amp;dpr=1 1x, https://sawyer-highlights.imgix.net/volume/covers/_wZ35GI4itgC?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format&amp;dpr=2 2x" src="https://sawyer-highlights.imgix.net/volume/covers/_wZ35GI4itgC?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format" alt="Are Prisons Obsolete?">
-							</figure>
-							<h2 class="c-shelf__volume__title">Are Prisons Obsolete?</h2>
-						</a>
-					</li>
 				</ul>
 			</main>
 		</div>
 	</body>
+
 
 	<!-- Import the firebase configuration and initialize -->
 
@@ -46,7 +39,7 @@
 	<script>
 
 		function render(volumes) {
-			let shelf = document.getElementsByClassName("c-shelf")[0]
+			let shelf = document.getElementsByClassName("c-shelf")[0];
 
 			volumes.forEach(volume => {
 				<!--console.log(volume.book)-->
