@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const axios = require('axios');
 			admin.initializeApp();
+const book_book = '';
 
 // ugh
 // The module used to parse the inbound email and attachment
