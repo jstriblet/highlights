@@ -78,5 +78,6 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
 
 	//img.src =  `https://covers.vitalbook.com/vbid/${volume.book.ISBN[1].identifier}/width/200`
+	//// Soon
 });
 
