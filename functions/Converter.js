@@ -8,41 +8,104 @@ const cheerio = require("cheerio");
 const Converter = function(html) {
   this.html = html;
   this.$ = cheerio.load(this.html);
+	this.kindle = false;
+	this.audible = false;
 };
 
 /**
- * Determine whether the given HTML is a valid Kindle notes export
+ * Determine whether the given HTML is a valid Kindle notes export or an Audible audio book
  * @returns {Boolean}
  */
 Converter.prototype.valid = function() {
-  if (this.html) {
+
+  if (this.html) 
+	{
     const notes = this.$(".noteText");
-    return notes.length > 0;
+		const audibleIdx = this.html.split(' ').indexOf('Audible');
+
+		console.log('Notes Length - ', notes.length)
+		console.log('Audible Index - ', audibleIdx);
+
+		if (notes.length > 0) 
+		{
+			this.eBook = true;
+			return notes.length > 0;
+		} 
+		else if (audibleIdx > 0) 
+		{
+			this.audible = true;
+			return audibleIdx > 0;
+		}
   }
 
   return false;
 };
 
 /**
- * Parse the HTML to pull out the volume's title, author, and highlights
+ * Parse the HTML to pull out the volume's title, author, and , if applicable, highlights
  * @returns {Object}
  */
 Converter.prototype.getJSON = function() {
-  const titleEl = this.$(".bookTitle");
-  const authorEl = this.$(".authors");
-  const title = titleEl.text().trim();
-  const authors = authorEl
-    .text()
-    .split(";")
-    .map(s => s.trim());
+	if (this.kindle) 
+	{
+		const titleEl = this.$(".bookTitle");
+		const authorEl = this.$(".authors");
+		const title = titleEl.text().trim();
+		const authors = authorEl
+			.text()
+			.split(";")
+			.map(s => s.trim());
 
-  return {
-    volume: {
-      title: title,
-      authors: authors
-    },
-    highlights: this.highlights()
-  };
+		return {
+			volume: {
+				title: title,
+				authors: authors
+			},
+			method: 'Kindle',
+			sync: new Date().toLocaleString(),
+			highlights: this.highlights()
+		};
+	}
+	else if (this.audible)
+	{
+		const text = this.html
+			.split('Audible app')[0]
+			.split('Hi -')[1];
+		const titleAndAuthor = text
+			.split('% through')[1]
+			.split(', narrated by')[0];
+		const lastIdx = titleAndAuthor
+			.split(' ')
+			.lastIndexOf('by');
+		const title = titleAndAuthor
+			.split(' ')
+			.slice(1,lastIdx)
+			.join(' ');
+		const authors = titleAndAuthor
+			.split(' ')
+			.slice(lastIdx+1)
+			.join(' ')
+			.split(',');
+		const narrators = text
+			.split('narrated by ')[1]
+			.split(' on my')[0].split(',');
+
+		//console.log(text)
+		//console.log(titleAndAuthor)
+		//console.log(title)
+		//console.log(authors)
+		//console.log(narrators)
+
+		return {
+			volume: {
+				title: title,
+				authors: authors
+			},
+			method: 'Audible',
+			sync: new Date().toLocaleString()
+		};
+	}
+
 };
 
 /**

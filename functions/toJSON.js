@@ -16,7 +16,8 @@ function toJSON(source) {
 function convert(contents) {
   const converter = new Converter(contents);
 
-  if (converter.valid) {
+  if (converter.valid()) {
+		console.log(converter.getJSON());
     return converter.getJSON();
   }
 
