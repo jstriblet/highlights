@@ -36,7 +36,6 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	//const newBook = new Book(json);
 	//const bookDetails = Book.getDetails();
 
-
 	//const searchDetails = async function(json) {
 		//const url = `https://www.googleapis.com/books/v1/volumes?q=${json.volume.title.replace(/ /g, '+')}+inauthor:${json.volume.authors[0].replace(/ /g, '+')}&key=${ConfigKey().key}&country=US`
 		//let response;
