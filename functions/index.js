@@ -3,8 +3,7 @@ const admin = require('firebase-admin');
 			admin.initializeApp();
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
-// The moodule use to create a book record for new books 
-const book = require('./Book.js');
+const bindBook = require('./bindBook.js');
 
 // Take the text parameter passed to this HTTP endpoint and insert it into 
 // Cloud Firestore under the path /messages/:documentId/email
@@ -30,49 +29,9 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 
 	// Convert the email message to JSON
 	const email = snap.data().email;
-	const json = toJSON(email);
-	const book = toBook(json);
+	const json = await toJSON(email);
+	const book = await bindBook(json);
 
-	//const newBook = new Book(json);
-	//const bookDetails = Book.getDetails();
-
-	//const searchDetails = async function(json) {
-		//const url = `https://www.googleapis.com/books/v1/volumes?q=${json.volume.title.replace(/ /g, '+')}+inauthor:${json.volume.authors[0].replace(/ /g, '+')}&key=${ConfigKey().key}&country=US`
-		//let response;
-
-		//try {
-			//response = await axios.get(url);
-		//} catch (err) {
-			//console.log('Error in searchDetails: ' + err);
-		//}
-
-		//return getBook(response.data);
-	//}
-
-	//const getBook = async function(data) {
-		//const url = `${data.items[0].selfLink}?&key=${ConfigKey().key}&country=US`;
-		//let response;
-
-		//try {
-			//response = await axios.get(url);
-		//} catch (err) {
-			//console.log('Error in getBook: ' + err)
-		//}
-
-		//json.images = response.data.volumeInfo.imageLinks;
-		//json.isbn = response.data.volumeInfo.industryIdentifiers;
-
-		//return	{
-			//title   : json.volume.title,
-			//authors : json.volume.authors,
-			//images  : json.images,
-			//ISBN    : json.isbn
-		//}
-	//}
-
-	//let book = await searchDetails(json);
-
-	//console.log(book);
 	// Push the volume to the Firestore, and overwrite any existing one
 	//admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
 

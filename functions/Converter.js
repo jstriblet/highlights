@@ -23,9 +23,6 @@ Converter.prototype.valid = function() {
     const notes = this.$(".noteText");
 		const audibleIdx = this.html.split(' ').indexOf('Audible');
 
-		console.log('Notes Length - ', notes.length)
-		console.log('Audible Index - ', audibleIdx);
-
 		if (notes.length > 0) 
 		{
 			this.eBook = true;
@@ -37,12 +34,11 @@ Converter.prototype.valid = function() {
 			return audibleIdx > 0;
 		}
   }
-
   return false;
 };
 
 /**
- * Parse the HTML to pull out the volume's title, author, and , if applicable, highlights
+ * Parse the HTML to pull out the volume's title, author, and, if applicable, highlights
  * @returns {Object}
  */
 Converter.prototype.getJSON = function() {
@@ -61,7 +57,7 @@ Converter.prototype.getJSON = function() {
 				title: title,
 				authors: authors
 			},
-			method: 'Kindle',
+			medium: 'Kindle',
 			sync: new Date().toLocaleString(),
 			highlights: this.highlights()
 		};
@@ -90,18 +86,12 @@ Converter.prototype.getJSON = function() {
 			.split('narrated by ')[1]
 			.split(' on my')[0].split(',');
 
-		//console.log(text)
-		//console.log(titleAndAuthor)
-		//console.log(title)
-		//console.log(authors)
-		//console.log(narrators)
-
 		return {
 			volume: {
 				title: title,
 				authors: authors
 			},
-			method: 'Audible',
+			medium: 'Audible',
 			sync: new Date().toLocaleString()
 		};
 	}

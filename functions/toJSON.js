@@ -17,13 +17,12 @@ function convert(contents) {
   const converter = new Converter(contents);
 
   if (converter.valid()) {
-		console.log(converter.getJSON());
     return converter.getJSON();
   }
 
-  return new Error(
-    "Invalid mail content. Expected an HTML attachment with Kindle notes."
-  );
+  //return new Error(
+    //"Invalid mail content. Expected an HTML attachment with Kindle notes."
+  //);
 }
 
 module.exports = toJSON;
