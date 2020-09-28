@@ -25,7 +25,7 @@ Converter.prototype.valid = function() {
 
 		if (notes.length > 0) 
 		{
-			this.eBook = true;
+			this.kindle = true;
 			return notes.length > 0;
 		} 
 		else if (audibleIdx > 0) 

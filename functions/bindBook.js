@@ -8,23 +8,23 @@ const Book = require('./Book.js');
  * @returns {Promise<Object>}
  */
 function bindBook(json) {
-  return bind(json)
+  return binder(json)
 }
 
 /**
  * @param {String} contents - HTML attachment content
  * @returns {Object}
  */
-function bind(json) {
+function binder(json) {
   const book = new Book(json);
 
 	if (book.valid()) {
 		return book.getBook();
 	}
 
-	//return new Error(
-		//"Invalid mail content. Expected an HTML attachment with Kindle notes."
-	//);
+	return new Error(
+		"Invalid json content. Expected an Audible / Kindle based object."
+	);
 }
 
 module.exports = bindBook;

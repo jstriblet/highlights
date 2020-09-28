@@ -32,10 +32,9 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const json = await toJSON(email);
 	const book = await bindBook(json);
 
-	// Push the volume to the Firestore, and overwrite any existing one
-	//admin.firestore().collection('volumes').doc(json.volume.title).set({ book : book });
+	//console.log(book);
 
-	//img.src =  `https://covers.vitalbook.com/vbid/${volume.book.ISBN[1].identifier}/width/200`
-	//// Soon
+	// Push the volume to the Firestore, and overwrite any existing one
+	admin.firestore().collection('volumes').doc(book.title).set({ book : book });
 });
 
