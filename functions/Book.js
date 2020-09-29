@@ -72,6 +72,7 @@ Book.prototype.bindBook = async function(data) {
 	}
 }
 
+// Not downloading for some reason
 Book.prototype.downloadCovers = async function() {
 	await bookcovers.withIsbn(this.isbn[1].identifier).then(results => async function() {
 		console.log('hi')
