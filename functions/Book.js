@@ -1,7 +1,6 @@
 const axios = require('axios');
 const ConfigKey = require('./ConfigKey.js');
 const fs = require('fs');
-
 const bookcovers = require('bookcovers');
 
 /**
