@@ -9,7 +9,6 @@ const bookcovers = require('bookcovers');
  * @param {Array<String>} authors
  * @returns {Object}
  */
-
 const Book = function(json) {
 	this.json = json;
 	this.highlights = json.highlights;
