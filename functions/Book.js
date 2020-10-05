@@ -9,6 +9,7 @@ const bookcovers = require('bookcovers');
  * @param {Array<String>} authors
  * @returns {Object}
  */
+
 const Book = function(json) {
 	this.json = json;
 	this.highlights = json.highlights;
@@ -77,6 +78,7 @@ Book.prototype.downloadCovers = async function() {
 	await bookcovers.withIsbn(this.isbn[1].identifier).then(results => async function() {
 		console.log('hi')
 		console.log(results);
+		console.log(boookcovers);
 
 		//const response = await axios.get(url, {responseType: "stream"})
 		//response.data.pipe(fs.createWriteStream(dest));
