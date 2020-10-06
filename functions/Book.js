@@ -28,7 +28,7 @@ Book.prototype.valid = function() {
 Book.prototype.searchForBook = async function() {
 	const url = `https://www.googleapis.com/books/v1/volumes?q=${this.title.replace(/ /g, '+')}+inauthor:${this.authors[0].replace(/ /g, '+')}&key=${ConfigKey().key}&country=US`
 	let response;
-	//console.log(url)
+	console.log(url)
 
 	try {
 		response = await axios.get(url);
