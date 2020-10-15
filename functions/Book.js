@@ -2,8 +2,6 @@ const axios = require('axios');
 const ConfigKey = require('./ConfigKey.js');
 const fs = require('fs');
 
-const bookcovers = require('bookcovers');
-
 /**
  * Ask Google for Book title, Volume ID, and ISBN
  * @param {String} title
@@ -60,8 +58,6 @@ Book.prototype.bindBook = async function(data) {
 		i++;
 	}
 
-	 this.downloadCovers();
-
 	return	{
 		json       : this.json,
 		title      : this.title,
@@ -72,19 +68,6 @@ Book.prototype.bindBook = async function(data) {
 		sync		   : this.sync,
 		highlights : this.highlights
 	}
-}
-
-// Not downloading for some reason
-Book.prototype.downloadCovers = async function() {
-	await bookcovers.withIsbn(this.isbn[1].identifier).then(results => async function() {
-		console.log('hi')
-		console.log(results);
-		console.log(boookcovers);
-
-		//const response = await axios.get(url, {responseType: "stream"})
-		//response.data.pipe(fs.createWriteStream(dest));
-
-	});
 }
 
 Book.prototype.getBook = async function() {

@@ -40,17 +40,23 @@
 			let shelf = document.getElementsByClassName("c-shelf")[0];
 
 			volumes.forEach(volume => {
+				let id = volume.book.id;
 				let li = document.createElement('LI');
 				let text = document.createElement('H2');
 				let img = document.createElement('IMG');
 				let link = document.createElement('A');
 				let figure = document.createElement('FIGURE');
+					let coverName = 'Default'; 
+				if (volume.book.id) {
+					coverName = id;
+				}
 
 				li.classList.add("c-shelf__volume")
 				text.innerHTML = volume.book.title.split(':')[0];
 				text.classList.add("c-shelf__volume__title");
-				img.src = `covers/${volume.book.ISBN[1].identifier}.jpg`;
+				img.src = `covers/${coverName}.jpg`;
 				link.classList.add("c-shelf__link");
+				link.href = `volume.html?id=${id}`
 				figure.classList.add("c-cover");
 
 				figure.appendChild(img);
@@ -63,7 +69,6 @@
 		}
 
 		function sortBooks(volumes) {
-			console.log(volumes)
 
 			volumes.sort((a, b) => { 
 				if ( a.sync && b.sync) 
@@ -80,9 +85,7 @@
 				}
 				return 0;
 			});
-
-			console.log(volumes)
-
+console.log(volumes)
 			return volumes;
 		}
 

@@ -31,10 +31,11 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const email = snap.data().email;
 	const json = await toJSON(email);
 	const book = await bindBook(json);
-
+	const ref = admin.firestore().collection('volumes').doc();
+	book.id = ref.id;
 	//console.log(book);
 
 	// Push the volume to the Firestore, and overwrite any existing one
-	admin.firestore().collection('volumes').doc(book.title).set({ book : book });
+	admin.firestore().collection('volumes').doc(book.id).set({ book : book });
 });
 
