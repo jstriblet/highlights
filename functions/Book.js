@@ -42,7 +42,7 @@ Book.prototype.searchForBook = async function() {
 Book.prototype.bindBook = async function(data) {
 	let i = 0
 
-	while(this.isbn.length == 0) {
+	while(this.isbn.length === 0) {
 		const url = `${data.items[i].selfLink}?key=${ConfigKey().key}&country=US`;
 		let response;
 
@@ -51,6 +51,7 @@ Book.prototype.bindBook = async function(data) {
 		} catch (err) {
 			console.log('Error in bindBook: ' + err)
 		}
+
 
 		this.images = response.data.volumeInfo.imageLinks || '';
 		this.highlights = this.highlights || '';

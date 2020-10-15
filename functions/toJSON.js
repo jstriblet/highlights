@@ -20,9 +20,9 @@ function convert(contents) {
     return converter.getJSON();
   }
 
-  //return new Error(
-    //"Invalid mail content. Expected an HTML attachment with Kindle notes."
-  //);
+	return new Error(
+		"Invalid mail content. Expected an HTML attachment with Kindle notes."
+	);
 }
 
 module.exports = toJSON;

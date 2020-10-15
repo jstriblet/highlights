@@ -96,6 +96,10 @@ Converter.prototype.getJSON = function() {
 		};
 	}
 
+	return { volume : {
+		title: none
+	}};
+
 };
 
 /**
