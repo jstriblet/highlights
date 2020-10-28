@@ -32,4 +32,5 @@ https://sendgrid.com/docs/for-developers/parsing-email/setting-up-the-inbound-pa
 	- convert image to blob from image 
 	- refactor book class
 
-
+	try to use for getting book covers:
+https://bigbooksearch.com/books/the%20end%20of%20eternity

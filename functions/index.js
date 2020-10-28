@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 			admin.initializeApp();
+const db = admin.firestore();
+
 // The module used to parse the inbound email and attachment
 const toJSON = require('./toJSON.js');
 const bindBook = require('./bindBook.js');
@@ -17,7 +19,7 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
 	const email  = buffer.toString('utf8');
 
   // Push the new message into Cloud Firestore using the Firebase Admin SDK.
-	const writeResult = await admin.firestore().collection('messages').add({'email': email});
+	const writeResult = await db.collection('messages').add({'email': email});
 	
   // Send back a message that we've successfully written the message
 	res.json({result: `Message with ID: ${writeResult.id} added.`});
@@ -31,11 +33,27 @@ exports.addVolume = functions.firestore.document('/messages/{documentId}').onCre
 	const email = snap.data().email;
 	const json = await toJSON(email);
 	const book = await bindBook(json);
-	const ref = admin.firestore().collection('volumes').doc();
-	book.id = ref.id;
+
+	// Check to see if book is already in the database
+	await db.collection('volumes').get().then( querySnapshot => {
+		if (querySnapshot.size) {
+			querySnapshot.forEach(doc => {
+				if ( doc.data().book.title === book.title ) {
+					book.id = doc.id;
+					console.log('Book found: ', book.id, ' => ', book.title);
+				}
+			});
+		}
+	return true;
+	});
+
+	if (!book.id) {
+		book.id = db.collection('volumes').doc().id;
+	}
+
 	//console.log(book);
 
 	// Push the volume to the Firestore, and overwrite any existing one
-	admin.firestore().collection('volumes').doc(book.id).set({ book : book });
+	db.collection('volumes').doc(book.id).set({ book : book });
 });
 

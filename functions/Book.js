@@ -40,24 +40,19 @@ Book.prototype.searchForBook = async function() {
 }
 
 Book.prototype.bindBook = async function(data) {
-	let i = 0
 
-	while(this.isbn.length === 0) {
-		const url = `${data.items[i].selfLink}?key=${ConfigKey().key}&country=US`;
-		let response;
+	const url = `${data.items[0].selfLink}?key=${ConfigKey().key}&country=US`;
+	let response;
 
-		try {
-			response = await axios.get(url);
-		} catch (err) {
-			console.log('Error in bindBook: ' + err)
-		}
-
-
-		this.images = response.data.volumeInfo.imageLinks || '';
-		this.highlights = this.highlights || '';
-		this.isbn = response.data.volumeInfo.industryIdentifiers || [];
-		i++;
+	try {
+		response = await axios.get(url);
+	} catch (err) {
+		console.log('Error in bindBook: ' + err)
 	}
+
+	this.images = response.data.volumeInfo.imageLinks || '';
+	this.highlights = this.highlights || '';
+	this.isbn = response.data.volumeInfo.industryIdentifiers || [];
 
 	return	{
 		json       : this.json,
