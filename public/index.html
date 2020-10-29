@@ -52,6 +52,7 @@
 				let coverName = 'Default'; 
 
 				xhttp.open("GET", `covers/${id}.jpg`, false);
+
 				xhttp.send();
 
 				xhttp.onreadystatechange = function() {
@@ -59,6 +60,7 @@
 						if (this.status == 200) {
 							coverName = id;
 						}
+						console.log()
 						console.log(this.status)
 						console.log('/covers/ ' + coverName)
 
