@@ -51,33 +51,27 @@
 				let coverName = 'Default'; 
 
 				xhttp.open("GET", `covers/${id}.jpg`, false);
-
 				xhttp.send();
 
-				xhttp.onreadystatechange = function() {
-					if (this.status) {
-						if (this.status == 200) {
-							coverName = id;
-						}
-						console.log(this.status)
-						console.log(this.status)
-						console.log('/covers/ ' + coverName)
-
-						li.classList.add("c-shelf__volume")
-						text.innerHTML = volume.book.title.split(':')[0];
-						text.classList.add("c-shelf__volume__title");
-						img.src = `./covers/${coverName}.jpg`;
-						link.classList.add("c-shelf__link");
-						link.href = `volume.html?id=${id}`
-						figure.classList.add("c-cover");
-
-						figure.appendChild(img);
-						link.appendChild(figure);
-						link.appendChild(text);
-						li.appendChild(link);
-						shelf.appendChild(li);
-					}
+				if (xhttp.status == 200) {
+					coverName = id;
+				} else {
+					coverName = 'Default';
 				}
+
+				li.classList.add("c-shelf__volume")
+				text.innerHTML = volume.book.title.split(':')[0];
+				text.classList.add("c-shelf__volume__title");
+				img.src = `./covers/${coverName}.jpg`;
+				link.classList.add("c-shelf__link");
+				link.href = `volume.html?id=${id}`
+				figure.classList.add("c-cover");
+
+				figure.appendChild(img);
+				link.appendChild(figure);
+				link.appendChild(text);
+				li.appendChild(link);
+				shelf.appendChild(li);
 			});
 
 		}
