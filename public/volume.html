@@ -21,8 +21,8 @@
 
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>The Truths We Hold by Kamala Harris</title>
-		<meta name="description" content="Jonathan's highlights and notes from {book}.">
+		<title>Highlights from book</title>
+		<meta name="description" content="Jonathan's highlights and notes.">
 
 		<link rel="stylesheet" type="text/css" href="/index.css">
 		<link rel="SHORTCUT ICON" href="/favicon.png">
@@ -34,25 +34,7 @@
 
 			<main class="l-container l-container--highlights">
 
-				<header class="c-volume-header">
-					<figure class="c-cover">
-						<img srcset="https://sawyer-highlights.imgix.net/volume/covers/kamala?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format&amp;dpr=1 1x, https://sawyer-highlights.imgix.net/volume/covers/kamala?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format&amp;dpr=2 2x" src="https://sawyer-highlights.imgix.net/volume/covers/kamala?w=250&amp;h=400&amp;fit=crop&amp;q=50&amp;auto=format" alt="The Truths We Hold">
-					</figure>
-					<h1 class="u-antialiased">The Truths We Hold</h1>
-					<h2 class="u-antialiased">An American Journey</h2>
-					<p class="c-volume-header__authors u-family-mono">Kamala Harris</p>
-				</header>
-
-				<article class="c-highlight">
-					<blockquote class="c-highlight__body">
-						<p><span>
-							First, my name is pronounced “comma-la,” like the punctuation mark. It means “lotus flower,” which is a symbol of significance in Indian culture. A lotus grows underwater, its flower rising above the surface while its roots are planted firmly in the river bottom.
-						</span></p>
-					</blockquote>
-				</article>
-
 			</main>
-
 		</div>
 	</body>
 
@@ -63,7 +45,10 @@
 	let xhttp = new XMLHttpRequest();
 
 	function renderHeader(volume) {
+		console.log('Rendering Header.....')
+
 		let id = volume.book.id;
+		let title = document.getElementsByTagName('Title')[0];
 		let root = document.getElementById('root');
 		let main = root.getElementsByTagName('main')[0];
 		let header = document.createElement('HEADER');
@@ -73,8 +58,15 @@
 		let figure = document.createElement('FIGURE');
 		let img = document.createElement('IMG');
 		let coverName = 'Default';
+		let authors = volume.book.authors;
+				authors = authors.map(name => {
+					if(name.indexOf(',') > -1) {
+						return name.split(',')[1] + ' ' + name.split(',')[0];
+					}
+					return name;
+				});
 
-		xhttp.open("GET", `covers/${id}.jpg`, false);
+		xhttp.open('GET', `covers/${id}.jpg`, false);
 		xhttp.send();
 
 		if (xhttp.status == 200) {
@@ -84,16 +76,17 @@
 		}
 
 		img.src = `./covers/${coverName}.jpg`;
-		h1.innerHTML = volume.book.title;
-		h2.innerHTML = '';
-		p.innerHTML = volume.book.authors[0];
+		h1.innerHTML = volume.book.title.split(':')[0];
+		h2.innerHTML = volume.book.title.split(':')[1] ? volume.book.title.split(':')[1] : '';
+		p.innerHTML = authors.join(', ');
+		title.innerHTML = h1.innerHTML + ' by ' + p.innerHTML;
 
-		figure.classList.add("c-cover");
-		header.classList.add("c-volume-header");
-		h1.classList.add("u-antialiased");
-		h2.classList.add("u-antialiased");
-		p.classList.add("c-volume-header__authors")
-		p.classList.add("u-family-mono")
+		figure.classList.add('c-cover');
+		header.classList.add('c-volume-header');
+		h1.classList.add('u-antialiased');
+		h2.classList.add('u-antialiased');
+		p.classList.add('c-volume-header__authors')
+		p.classList.add('u-family-mono')
 
 		figure.appendChild(img);
 		header.appendChild(figure);
@@ -102,12 +95,47 @@
 		header.appendChild(p);
 		main.appendChild(header);
 
-		console.log('Rendering Header.....')
 		console.log('DONE')
 	}
 
-	function renderHighlights(book) {
+	function renderHighlights(volume) {
 		console.log('Rendering Highlights.....')
+
+		let id = volume.book.id;
+		let root = document.getElementById('root');
+		let main = root.getElementsByTagName('main')[0];
+
+		if (volume.book.medium === 'Kindle') {
+			for (highlight of volume.book.highlights) {
+
+				let article = document.createElement('ARTICLE');
+				let blockquote = document.createElement('BLOCKQUOTE');
+				let span = document.createElement('SPAN');
+				let p = document.createElement('P');
+				let div = document.createElement('DIV');
+
+				article.classList.add('c-highlight');
+				blockquote.classList.add('c-highlight__body');
+				div.classList.add('c-highlight__nav', 'u-family-mono');
+
+				span.innerHTML = highlight.content
+				div.innerHTML = highlight.location
+
+				p.appendChild(span);
+				blockquote.appendChild(p);
+				article.appendChild(blockquote);
+				article.appendChild(div);
+				main.appendChild(article)
+
+			}
+		} else {
+			let p = document.createElement('P');
+			p.classList.add('u-align--center')
+
+			p.innerHTML = 'I listened to this as an audiobook';
+			main.appendChild(p);
+		}
+
 		console.log('DONE')
 	}
 

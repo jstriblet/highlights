@@ -61,6 +61,11 @@
 
 				li.classList.add("c-shelf__volume")
 				text.innerHTML = volume.book.title.split(':')[0];
+
+				if (!(volume.book.medium === 'Kindle')) {
+					text.innerHTML += '  🎧';
+				}
+
 				text.classList.add("c-shelf__volume__title");
 				img.src = `./covers/${coverName}.jpg`;
 				link.classList.add("c-shelf__link");
@@ -108,7 +113,7 @@
 				.then(sortBooks)
 				.then(render)
 		}
-
+    
 	getVolumes();
 	</script>
 
