@@ -5,10 +5,10 @@
 		<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-59986301-2"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
 
-gtag('config', 'UA-59986301-2');
+			gtag('config', 'UA-59986301-2');
 		</script>
 
 		<script src="/__/firebase/7.19.0/firebase-app.js"></script>
@@ -45,13 +45,10 @@ gtag('config', 'UA-59986301-2');
 
 				<article class="c-highlight">
 					<blockquote class="c-highlight__body">
-						<p><span>First, my name is pronounced “comma-la,” like the punctuation mark. It means “lotus flower,” which is a symbol of significance in Indian culture. A lotus grows underwater, its flower rising above the surface while its roots are planted firmly in the river bottom.</span></p>
+						<p><span>
+							First, my name is pronounced “comma-la,” like the punctuation mark. It means “lotus flower,” which is a symbol of significance in Indian culture. A lotus grows underwater, its flower rising above the surface while its roots are planted firmly in the river bottom.
+						</span></p>
 					</blockquote>
-					<div class="c-highlight__nav u-family-mono"><a href="/highlights/KAD3VtfU0UVTTZw4OjBr">Link</a> · 115</div>
-				</article>
-
-				<article class="c-highlight"><blockquote class="c-highlight__body"><p><span>I had a sense that I wanted to be a prosecutor, that I wanted to be on the front lines of criminal justice reform, that I wanted to protect the vulnerable.</span></p>
-					</blockquote><div class="c-highlight__nav u-family-mono"><a href="/highlights/OWa5A1Pg0ljL1gCUTZGS">Link</a> · 3437</div>
 				</article>
 
 			</main>
@@ -63,19 +60,19 @@ gtag('config', 'UA-59986301-2');
 
 	<script>
 
-		let xhttp = new XMLHttpRequest();
+	let xhttp = new XMLHttpRequest();
 
-function render(volumes) {
-	let shelf = document.getElementsByClassName("c-shelf")[0];
-
-	volumes.forEach(volume => {
+	function renderHeader(volume) {
 		let id = volume.book.id;
-		let li = document.createElement('LI');
-		let text = document.createElement('H2');
-		let img = document.createElement('IMG');
-		let link = document.createElement('A');
+		let root = document.getElementById('root');
+		let main = root.getElementsByTagName('main')[0];
+		let header = document.createElement('HEADER');
+		let h1 = document.createElement('H1');
+		let h2 = document.createElement('H2');
+		let p = document.createElement('P');
 		let figure = document.createElement('FIGURE');
-		let coverName = 'Default'; 
+		let img = document.createElement('IMG');
+		let coverName = 'Default';
 
 		xhttp.open("GET", `covers/${id}.jpg`, false);
 		xhttp.send();
@@ -86,49 +83,50 @@ function render(volumes) {
 			coverName = 'Default';
 		}
 
-		li.classList.add("c-shelf__volume")
-		text.innerHTML = volume.book.title.split(':')[0];
-		text.classList.add("c-shelf__volume__title");
 		img.src = `./covers/${coverName}.jpg`;
-		link.classList.add("c-shelf__link");
-		link.href = `volume.html?id=${id}`
+		h1.innerHTML = volume.book.title;
+		h2.innerHTML = '';
+		p.innerHTML = volume.book.authors[0];
+
 		figure.classList.add("c-cover");
+		header.classList.add("c-volume-header");
+		h1.classList.add("u-antialiased");
+		h2.classList.add("u-antialiased");
+		p.classList.add("c-volume-header__authors")
+		p.classList.add("u-family-mono")
 
 		figure.appendChild(img);
-		link.appendChild(figure);
-		link.appendChild(text);
-		li.appendChild(link);
-		shelf.appendChild(li);
-	});
+		header.appendChild(figure);
+		header.appendChild(h1);
+		header.appendChild(h2);
+		header.appendChild(p);
+		main.appendChild(header);
 
-}
-
-function renderHeader(book) {
-	console.log('Rendering Header.....')
-	console.log('DONE')
-}
-
-function renderHighlights(book) {
-	console.log('Rendering Highlights.....')
-	console.log('DONE')
-}
-
-async function getVolume() {
-
-	const id = window.location.href.split('=')[1]
-	const bookRef = firebase.firestore().collection("volumes").doc(id);
-	const doc = await bookRef.get();
-
-	if (!doc.exists) {
-		console.log('No such document!');
-	} else {
-		console.log('Document data:', doc.data());
-		renderHeader(doc.data())
-		renderHighlights(doc.data())
+		console.log('Rendering Header.....')
+		console.log('DONE')
 	}
-}
 
-getVolume();
+	function renderHighlights(book) {
+		console.log('Rendering Highlights.....')
+		console.log('DONE')
+	}
+
+	async function getVolume() {
+
+		const id = window.location.href.split('=')[1]
+		const bookRef = firebase.firestore().collection("volumes").doc(id);
+		const doc = await bookRef.get();
+
+		if (!doc.exists) {
+			console.log('No such document!');
+		} else {
+			console.log('Document data:', doc.data());
+			renderHeader(doc.data())
+			renderHighlights(doc.data())
+		}
+	}
+
+	getVolume();
 
 	</script>
 
