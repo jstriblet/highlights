@@ -36,7 +36,6 @@
 
 	<script>
 
-		let xhttp = new XMLHttpRequest();
 
 		function render(volumes) {
 			let shelf = document.getElementsByClassName("c-shelf")[0];
@@ -48,17 +47,7 @@
 				let img = document.createElement('IMG');
 				let link = document.createElement('A');
 				let figure = document.createElement('FIGURE');
-				let coverName = 'Default'; 
-
-				xhttp.open("GET", `covers/${id}.jpg`, false);
-				xhttp.send();
-
-				if (xhttp.status == 200) {
-					coverName = id;
-				} else {
-					coverName = 'Default';
-				}
-				console.log(id)
+				let coverName = id;
 
 				li.classList.add("c-shelf__volume")
 				text.innerHTML = volume.book.title.split(':')[0];
@@ -69,6 +58,7 @@
 
 				text.classList.add("c-shelf__volume__title");
 				img.src = `./covers/${coverName}.jpg`;
+				img.addEventListener('error', getDefaultImg)
 				link.classList.add("c-shelf__link");
 				link.href = `volume.html?id=${id}`
 				figure.classList.add("c-cover");
@@ -81,9 +71,14 @@
 			});
 
 		}
+		
+		function getDefaultImg(el) {
+			console.log(el);
+			el.target.src = `./covers/Default.jpg`;
+		}
+
 
 		function sortBooks(volumes) {
-
 			volumes.sort((a, b) => { 
 				if ( a.book.sync && b.book.sync) 
 					return new Date(b.book.sync) - new Date(a.book.sync)
@@ -112,6 +107,7 @@
 			.get()
 				.then(parse)
 				.then(sortBooks)
+				<!--.then(gatherResources)-->
 				.then(render)
 		}
     
